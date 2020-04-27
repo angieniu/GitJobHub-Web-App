@@ -13,7 +13,7 @@ import com.monkeylearn.MonkeyLearnException;
 import com.monkeylearn.MonkeyLearnResponse;
 
 public class MonkeyLearnClient {
-	private static final String API_KEY = "5c6e28a0941a83797090d0c87da6c70ec4e4969f";// make sure change it to your api key.
+	private static final String API_KEY = "your api key";// make sure change it to your api key.
        public static void main(String[] args) { // test, no need to be called externally, but could be used as test.
 
            String[] data = {
@@ -44,7 +44,7 @@ public class MonkeyLearnClient {
 		// Use the API key from your account
 		MonkeyLearn ml = new MonkeyLearn(API_KEY);
 
-        String modelId = "ex_YCya9nrn";
+        String modelId = "your model ID";
 		// Use the keyword extractor, and parameters in api documentation + original source code. 
 		ExtraParam[] extraParams = { new ExtraParam ("max_keywords", "3") };
 		MonkeyLearnResponse response;
