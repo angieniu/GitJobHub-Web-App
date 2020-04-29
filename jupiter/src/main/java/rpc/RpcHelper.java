@@ -1,9 +1,16 @@
 package rpc;
+import java.io.BufferedReader;
 
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import entity.Item;
+import entity.Item.ItemBuilder;
 
 public class RpcHelper {
 	// Writes a JSONArray to http response.
@@ -17,5 +24,39 @@ public class RpcHelper {
 		response.setContentType("application/json");
 		response.getWriter().print(obj);
 	}
+	
+	// jsonstring => jsonobject
+	// Parses a JSONObject from http request.
+		public static JSONObject readJSONObject(HttpServletRequest request) throws IOException {
+			BufferedReader reader = new BufferedReader(request.getReader());
+			StringBuilder requestBody = new StringBuilder();
+			String line = null;
+			while ((line = reader.readLine()) != null) {
+				requestBody.append(line);
+			}
+			// jsonobject 
+			return new JSONObject(requestBody.toString());
+		}
+		
+		//extensibility, item, user and so forth, so all request could be changed to JSONObject. other logic could be used in parse logic below.
+	      // Convert a JSON object to Item object. item access, item ID, item keyword. jsonobject build item.
+		// json string-- json object/array -- item -- json array -- api call: string.  easy to be stored in db. if jsonobject stored in db, hard to get item_id, when nested in json array/object.
+		public static Item parseFavoriteItem(JSONObject favoriteItem) {
+			ItemBuilder builder = new ItemBuilder();
+			builder.setItemId(favoriteItem.getString("item_id"));
+			builder.setName(favoriteItem.getString("name"));
+			builder.setAddress(favoriteItem.getString("address"));
+			builder.setUrl(favoriteItem.getString("url"));
+			builder.setImageUrl(favoriteItem.getString("image_url"));
+			
+			Set<String> keywords = new HashSet<>();
+			JSONArray array = favoriteItem.getJSONArray("keywords");
+			for (int i = 0; i < array.length(); ++i) {
+				keywords.add(array.getString(i));
+			}
+			builder.setKeywords(keywords);
+			return builder.build();
+		}
+
 
 }
