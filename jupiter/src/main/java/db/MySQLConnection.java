@@ -145,6 +145,9 @@ public class MySQLConnection {
 
 		return favoriteItems;
 	}
+	
+
+
 
 	public Set<Item> getFavoriteItems(String userId) {
 		if (conn == null) {
@@ -200,6 +203,72 @@ public class MySQLConnection {
 	}
   
 
+	public String getFullname(String userId) {
+		if (conn == null) {
+			System.err.println("DB connection failed");
+			return null;
+		}
+		String name = "";
+		String sql = "SELECT first_name, last_name FROM users WHERE user_id = ? ";
+		try {
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, userId);
+			ResultSet rs = statement.executeQuery();
+			if (rs.next()) {
+				name = rs.getString("first_name") + " " + rs.getString("last_name");
+				
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		
+		return name;
+	}
 
+	public boolean verifyLogin(String userId, String password) {
+		if (conn == null) {
+			System.err.println("DB connection failed");
+			return false;
+		}
+		String sql = "SELECT user_id FROM users WHERE user_id = ? AND password = ?";
+		try {
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, userId);
+			statement.setString(2, password);
+			ResultSet rs = statement.executeQuery();
+			if (rs.next()) {
+				return true;
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return false;
 
+	}
+	
+	public boolean addUser(String userId, String password, String firstname, String lastname) {
+		if (conn == null) {
+			System.err.println("DB connection failed");
+			return false;
+		}
+  // when duplicate, ignore, skip, duplicate.
+		String sql = "INSERT IGNORE INTO users VALUES (?, ?, ?, ?)";
+		try {
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, userId);
+			statement.setString(2, password);
+			statement.setString(3, firstname);
+			statement.setString(4, lastname);
+
+			// means update how many lines. we expect 1, coz we only put one piece of info inside.  == 1, true false. 
+			return statement.executeUpdate() == 1;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 }
+
+
+

@@ -2,6 +2,7 @@
 package external;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.json.simple.JSONArray;
@@ -12,6 +13,7 @@ import com.monkeylearn.MonkeyLearn;
 import com.monkeylearn.MonkeyLearnException;
 import com.monkeylearn.MonkeyLearnResponse;
 
+// sdk packages
 public class MonkeyLearnClient {
 	private static final String API_KEY = "5c6e28a0941a83797090d0c87da6c70ec4e4969f";// make sure change it to your api key.
        public static void main(String[] args) { // test, no need to be called externally, but could be used as test.

@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -35,9 +36,14 @@ public class ItemHistory extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-    // read myfavourites
+    // read myfavourites // session id: my request could not request other data.
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		HttpSession session = request.getSession(false);
+		if (session == null) {
+			response.setStatus(403);
+			return;
+		}
 String userId = request.getParameter("user_id");
 
 		MySQLConnection connection = new MySQLConnection();
@@ -62,6 +68,13 @@ String userId = request.getParameter("user_id");
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		// save item to database
+		// endpoint, session check, no login, not possible to check
+		// token based authentication, client, string, be invalidate, oauth (short time, advanced level), token base another method. token validate. facebook validate, service, other authenticate, token provided, service check whether token valid. 
+		HttpSession session = request.getSession(false);
+		if (session == null) {
+			response.setStatus(403);
+			return;
+		}
 		MySQLConnection connection = new MySQLConnection();// call constructor, already connection.
 		JSONObject input = RpcHelper.readJSONObject(request);
 		String userId = input.getString("user_id");
@@ -78,6 +91,13 @@ String userId = request.getParameter("user_id");
 	// delete like
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		HttpSession session = request.getSession(false);
+		if (session == null) {
+			response.setStatus(403);
+			return;
+		}
+
+
 		MySQLConnection connection = new MySQLConnection();
 		JSONObject input = RpcHelper.readJSONObject(request);
 		String userId = input.getString("user_id");
