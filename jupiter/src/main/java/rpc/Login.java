@@ -50,11 +50,12 @@ public class Login extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	// 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		JSONObject input = RpcHelper.readJSONObject(request);
 		String userId = input.getString("user_id");
-		String password = input.getString("password");
+		String password = input.getString("password"); // hashed in the web implementation, browser
 
 		MySQLConnection connection = new MySQLConnection();
 		JSONObject obj = new JSONObject();
@@ -66,7 +67,7 @@ public class Login extends HttpServlet {
 			obj.put("status", "OK").put("user_id", userId).put("name", connection.getFullname(userId));
 		} else {
 			obj.put("status", "User Doesn't Exist");
-			response.setStatus(401);
+			response.setStatus(401); // unauthorized error
 		}
 		connection.close();
 		RpcHelper.writeJsonObject(response, obj);

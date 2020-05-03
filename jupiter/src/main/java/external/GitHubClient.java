@@ -83,8 +83,7 @@ public class GitHubClient {
 		// We need to get keywords from multiple text in one request since
 		// MonkeyLearnAPI has limitations on request per minute.
 
-		List<List<String>> keywords = MonkeyLearnClient
-				.extractKeywords(descriptionList.toArray(new String[descriptionList.size()]));
+		List<List<String>> keywords = MonkeyLearnClient.extractKeywords(descriptionList.toArray(new String[descriptionList.size()]));
 		// change from list<String> to String[], as above 
         
 		// array refers to batch data.

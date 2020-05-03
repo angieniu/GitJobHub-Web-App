@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
+
 /**
  * Servlet implementation class Logout
  */
@@ -25,9 +27,9 @@ public class Logout extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		HttpSession session = request.getSession(false);
-		if (session != null) { // if has session
+		// TODO Auto-generated method stub //get session status
+		HttpSession session = request.getSession(false); 
+		if (session != null) { // if has session // session stored in Tomcat server. 
 			session.invalidate();
 		}
 		response.sendRedirect("index.html");
