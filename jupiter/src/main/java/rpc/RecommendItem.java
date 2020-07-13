@@ -40,20 +40,11 @@ public class RecommendItem extends HttpServlet {
 //		response.setContentType("application/json"); // notifies the client side, response to the client side is json.
 //		PrintWriter writer = response.getWriter(); // writer的作用: 把下面想要放得response (line 42-44)放到response里面，write to response for the client side, writer change passed json object (java class) to string (as json format).
 		
-//		JSONArray array = new JSONArray();
+//		JSONArray array = new JSONArray(); // jsonArray
 //		array.put(new JSONObject().put("name", "abcd").put("address", "San Francisco").put("time", "01/01/2017"));
 //		array.put(new JSONObject().put("name", "1234").put("address", "San Jose").put("time", "01/01/2017"));
-//		writer.print(array);
-//		RpcHelper.writeJsonArray(response, array);
-		/* PrintWriter writer = response.getWriter();
-		 * if (request.getParameter("username" != null){
-		 * 		JSONObject obj = new JSONObject();
-		 * 		String username = request.getParameter("username"); // get input from url localhost:8080/jupiter/search?username=abc, so 从url读出来user name, put into response get abc
-		 * 		obj.put("username", username);
-		 * 		writer.print(obj); // so 从url读出来user name, put into response get abc
-		 * }
-		 */
-
+//		writer.print(array); 
+		
 //		response.getWriter().append("Served at: ").append(request.getContextPath());
 		HttpSession session = request.getSession(false);
 		if (session == null) {
