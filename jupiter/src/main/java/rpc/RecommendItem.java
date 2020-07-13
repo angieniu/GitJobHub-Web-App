@@ -25,6 +25,7 @@ public class RecommendItem extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
+	// constructor, call parent class constructor
     public RecommendItem() {
         super();
         // TODO Auto-generated constructor stub
@@ -34,15 +35,24 @@ public class RecommendItem extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//response as parameter, void method, reason: 要定义返回的object. 
 		// TODO Auto-generated method stub
-//		response.setContentType("application/json");
-//		PrintWriter writer = response.getWriter();
+//		response.setContentType("application/json"); // notifies the client side, response to the client side is json.
+//		PrintWriter writer = response.getWriter(); // writer的作用: 把下面想要放得response (line 42-44)放到response里面，write to response for the client side, writer change passed json object (java class) to string (as json format).
 		
 //		JSONArray array = new JSONArray();
 //		array.put(new JSONObject().put("name", "abcd").put("address", "San Francisco").put("time", "01/01/2017"));
 //		array.put(new JSONObject().put("name", "1234").put("address", "San Jose").put("time", "01/01/2017"));
 //		writer.print(array);
 //		RpcHelper.writeJsonArray(response, array);
+		/* PrintWriter writer = response.getWriter();
+		 * if (request.getParameter("username" != null){
+		 * 		JSONObject obj = new JSONObject();
+		 * 		String username = request.getParameter("username"); // get input from url localhost:8080/jupiter/search?username=abc, so 从url读出来user name, put into response get abc
+		 * 		obj.put("username", username);
+		 * 		writer.print(obj); // so 从url读出来user name, put into response get abc
+		 * }
+		 */
 
 //		response.getWriter().append("Served at: ").append(request.getContextPath());
 		HttpSession session = request.getSession(false);
