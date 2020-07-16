@@ -23,7 +23,9 @@ import entity.Item;
 import entity.Item.ItemBuilder;
 
 public class GitHubClient {
+	// replace %s 占位符
 	private static final String URL_TEMPLATE = "https://jobs.github.com/positions.json?description=%s&lat=%s&long=%s";
+	// 默认search position description as developer
 	private static final String DEFAULT_KEYWORD = "developer";
 	
 	public List<Item> search(double lat, double lon, String keyword) {
