@@ -34,7 +34,8 @@ public class GitHubClient {
 			keyword = DEFAULT_KEYWORD;
 		}
 		try {
-		//keyword in url 特殊字符 encode + & ?+endpoint %
+		//keyword in url 特殊字符 encode + & /endpoint+? %
+			// resource path: 静态资源: html；  动态请求：/endpoint
 			//UTF-8 unicode 编码方法 英语汉字加密
 			keyword = URLEncoder.encode(keyword, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
