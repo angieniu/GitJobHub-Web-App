@@ -29,31 +29,49 @@ public class GitHubClient {
 	private static final String DEFAULT_KEYWORD = "developer";
 	
 	public List<Item> search(double lat, double lon, String keyword) {
+		// edge case
 		if (keyword == null) {
 			keyword = DEFAULT_KEYWORD;
 		}
 		try {
+		//keyword in url 特殊字符 encode + & ?+endpoint %
+			//UTF-8 unicode 编码方法 英语汉字加密
 			keyword = URLEncoder.encode(keyword, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
+		//拼接 %s占位符 加输入argument
 		String url = String.format(URL_TEMPLATE, keyword, lat, lon);
+		// apache http methods, client 发请求to github api, 收请求from github api
+		
 		CloseableHttpClient httpClient = HttpClients.createDefault();
+		//auto
 		try {
+			//HttpGet requent sent to url // call github api,并且拿到response
 			CloseableHttpResponse response = httpClient.execute(new HttpGet(url));
 			if (response.getStatusLine().getStatusCode() != 200) {
+				// return null 可拓展 400， 500
 				return new ArrayList<>();
 			}
+			//response里面的entity, 含有content metadata
 			HttpEntity entity = response.getEntity();
+			//edge case
 			if (entity == null) {
 				return new ArrayList<>();
 			}
+			//entity.getContent() return input stream 请求文件太大的话 保护memory, content 用 stream
+			// read stream java类 InputStreamReader reader = new InputStreamReader(entity.getContent());
+			// 但只能读1个字符，或声明读certain length字符，则1个1个读会读得很慢，或者1次读500个总共1001个，剩1个，不智能，不得不需要判断。引入java 新reader BufferedReader,可以把按行读, stream line by line.
 			BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent()));
+			// build response body
 			StringBuilder responseBody = new StringBuilder();
+			//读的每一行的数据
 			String line = null;
+			// 一直有数据一直读
 			while ((line = reader.readLine()) != null) {
 				responseBody.append(line);
 			}
+			// 把json格式的字符串变成java JSONArray object
 			JSONArray array = new JSONArray(responseBody.toString());
 			return getItemList(array);
 		} catch (ClientProtocolException e) {
